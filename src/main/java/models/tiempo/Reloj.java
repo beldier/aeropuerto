@@ -1,36 +1,45 @@
 package models.tiempo;
 
+import models.aeropuertos.Aeropuerto;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
-public class Reloj {
+public final class Reloj {
 
-    static final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
-
-    public static void main(String args[]){
-//        LocalTime tiempo = LocalTime.of(04,0);
-//        Date
-//        for ( tiempo.plusSeconds(==))
-//        tiempo = tiempo.plusMinutes(5);
-//        System.out.println(tiempo);
-
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
+    private static final long MINUTO_EN_MILISEGUNDOS=60000;//millisecs
+    private static Date fecha;
+    private static Calendar temp = Calendar.getInstance();
+    private static Timer timer;
+    private static List<Aeropuerto> escuchadores;
+    static {
         Calendar calendario = Calendar.getInstance();
-        calendario.set(2019,0,1,6,0);
+        calendario.set(2019,0,1,6,0,0);
+        fecha = calendario.getTime();
+        timer = new Timer();
+        RelojTask relojTask = new RelojTask();
+        timer.schedule(relojTask,3000,1000);
+        escuchadores = new ArrayList<>();
+    }
+    public static void addEscuchador(Aeropuerto a){
+        escuchadores.add(a);
+    }
+    public static void actualizarHora()
+    {
+        temp.setTime(fecha);
+        long tiempo= temp.getTimeInMillis();
+        fecha = new Date(tiempo + (MINUTO_EN_MILISEGUNDOS));
+        System.out.println(fecha);
+        notificar();
+    }
+    private static void notificar()
+    {
+        for(Aeropuerto a:escuchadores)
+            a.escucharHora();
+    }
 
-
-
-        Date fechaInicio = calendario.getTime();
-
-        Calendar date = Calendar.getInstance();
-
-
-        long t= date.getTimeInMillis();
-        Date afterAddingTenMins=new Date(t + (1 * ONE_MINUTE_IN_MILLIS));
-
-        System.out.println(df.format(fechaInicio));
+    public static Date getFecha() {
+        return fecha;
     }
 }

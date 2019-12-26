@@ -1,13 +1,19 @@
 package models.aeropuertos;
 
 
+import models.tiempo.Reloj;
+import models.tiempo.RelojInterface;
+
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
-public class Aeropuerto {
+public class Aeropuerto implements RelojInterface {
     private String ubicacion;
     private LocalTime horaAtencionInicio;
     private LocalTime horaAtencionFin;
@@ -65,5 +71,14 @@ public class Aeropuerto {
     @Override
     public String toString(){
         return this.ubicacion;
+    }
+
+    @Override
+    public void escucharHora() {
+
+        LocalTime alarma = LocalDateTime.ofInstant(Reloj.getFecha().toInstant(), ZoneId.systemDefault()).truncatedTo(ChronoUnit.SECONDS).toLocalTime();
+        if(horaAtencionInicio.compareTo(alarma) == 0)
+            System.out.println("Alarma :"+ubicacion);
+
     }
 }
