@@ -1,6 +1,6 @@
 package models.aeropuertos;
 
-public class Pista {
+public class    Pista {
     private int codigo;
     private boolean disponible;
 

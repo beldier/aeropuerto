@@ -1,6 +1,9 @@
 import java.net.*;
 import java.time.LocalTime;
 
+import controller.graph.Dijkstra;
+import controller.graph.Grafo;
+import controller.graph.Nodo;
 import models.aeropuertos.Aeropuerto;
 import models.tiempo.Reloj;
 import org.jgrapht.*;
@@ -20,74 +23,60 @@ public final class AeropuertoAplicacion
     public static void main(String[] args)
     {
         Reloj r = new Reloj();
-        System.out.println("olis");
-////        mxGraph graph = new mxGraph();
-//        LocalTime hora = LocalTime.of(10,0,0,0);
-////        Graph<String, DefaultEdge> stringGraph = createStringGraph();
-//
-//        DefaultUndirectedWeightedGraph<Aeropuerto, DefaultWeightedEdge> grafo = new DefaultUndirectedWeightedGraph<Aeropuerto,DefaultWeightedEdge>(DefaultWeightedEdge.class);
-//
-        List<Aeropuerto> listaAeropuertos = llenarAeropuertos();
-        for( Aeropuerto a: listaAeropuertos)
-            r.addEscuchador(a);
 
-//        grafo.addVertex(listaAeropuertos.get(0));
-//        grafo.addVertex(listaAeropuertos.get(1));
-//        grafo.addVertex(listaAeropuertos.get(2));
-//        grafo.addVertex(listaAeropuertos.get(3));
-//        grafo.addVertex(listaAeropuertos.get(4));
-//        grafo.addVertex(listaAeropuertos.get(5));
-//        grafo.addVertex(listaAeropuertos.get(6));
-//        grafo.addVertex(listaAeropuertos.get(7));
-//        grafo.addVertex(listaAeropuertos.get(8));
-//
-//        DefaultWeightedEdge e = new DefaultWeightedEdge();
-//
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.PAN),listaAeropuertos.get(Aeropuerto.BEN));
-//        grafo.setEdgeWeight(e,595.0);
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.PAN),listaAeropuertos.get(Aeropuerto.LPZ));
-//        grafo.setEdgeWeight(e,611.0);
-//
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.BEN),listaAeropuertos.get(Aeropuerto.CBBA));
-//        grafo.setEdgeWeight(e,314.0);
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.BEN),listaAeropuertos.get(Aeropuerto.SCZ));
-//        grafo.setEdgeWeight(e,376.0);
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.BEN),listaAeropuertos.get(Aeropuerto.LPZ));
-//        grafo.setEdgeWeight(e,394.0);
-//
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.SCZ),listaAeropuertos.get(Aeropuerto.CBBA));
-//        grafo.setEdgeWeight(e,318.0);
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.SCZ),listaAeropuertos.get(Aeropuerto.SUC));
-//        grafo.setEdgeWeight(e,259.0);
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.SCZ),listaAeropuertos.get(Aeropuerto.TAR));
-//        grafo.setEdgeWeight(e,447.0);
-//
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.CBBA),listaAeropuertos.get(Aeropuerto.SUC));
-//        grafo.setEdgeWeight(e,205.0);
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.CBBA),listaAeropuertos.get(Aeropuerto.LPZ));
-//        grafo.setEdgeWeight(e,234.0);
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.CBBA),listaAeropuertos.get(Aeropuerto.ORU));
-//        grafo.setEdgeWeight(e,124.0);
-//
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.LPZ),listaAeropuertos.get(Aeropuerto.ORU));
-//        grafo.setEdgeWeight(e,196.0);
-//
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.ORU),listaAeropuertos.get(Aeropuerto.SUC));
-//        grafo.setEdgeWeight(e,230.0);
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.ORU),listaAeropuertos.get(Aeropuerto.POT));
-//        grafo.setEdgeWeight(e,231.0);
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.ORU),listaAeropuertos.get(Aeropuerto.TAR));
-//        grafo.setEdgeWeight(e,469.0);
-//
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.POT),listaAeropuertos.get(Aeropuerto.SUC));
-//        grafo.setEdgeWeight(e,80.0);
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.POT),listaAeropuertos.get(Aeropuerto.TAR));
-//        grafo.setEdgeWeight(e,241.0);
-//
-//        e = grafo.addEdge(listaAeropuertos.get(Aeropuerto.SUC),listaAeropuertos.get(Aeropuerto.TAR));
-//        grafo.setEdgeWeight(e,283.0);
-//
-//
+        Grafo grafo =new Grafo();
+
+        List<Aeropuerto> listaAeropuertos = llenarAeropuertos();
+        for( Aeropuerto a: listaAeropuertos) {
+            r.addEscuchador(a);
+            grafo.addNode(a);
+        }
+
+
+        Aeropuerto lpz=new Aeropuerto("la paz",LocalTime.of(02,0,0),LocalTime.of(23,59,0));
+        Aeropuerto cbba=new Aeropuerto("cochabamba",LocalTime.of(02,0,0),LocalTime.of(23,59,0));
+        Aeropuerto scz=new Aeropuerto("santa cruz",LocalTime.of(02,0,0),LocalTime.of(23,59,0));
+        Aeropuerto tar=new Aeropuerto("tarija",LocalTime.of(06,10,0),LocalTime.of(18,0,0));
+        Aeropuerto suc=new Aeropuerto("sucre",LocalTime.of(06,0,0),LocalTime.of(18,0,0));
+        Aeropuerto oru=new Aeropuerto("oruro",LocalTime.of(06,0,0),LocalTime.of(18,0,0));
+        Aeropuerto pot=new Aeropuerto("potosi",LocalTime.of(06,0,0),LocalTime.of(18,0,0));
+        Aeropuerto ben=new Aeropuerto("beni",LocalTime.of(06,0,0),LocalTime.of(18,0,0));
+        Aeropuerto pando =new Aeropuerto("pando",LocalTime.of(06,0,0),LocalTime.of(18,0,0));
+
+
+        pando.agregarDestino(ben,595);
+        pando.agregarDestino(lpz,611);
+
+        ben.agregarDestino(cbba,314);
+        ben.agregarDestino(scz,376);
+        ben.agregarDestino(lpz,394);
+
+        scz.agregarDestino(cbba,318);
+        scz.agregarDestino(suc,259);
+        scz.agregarDestino(tar,447);
+
+        cbba.agregarDestino(suc,205);
+        cbba.agregarDestino(lpz,234);
+        cbba.agregarDestino(oru,124);
+
+        lpz.agregarDestino(oru,196);
+
+        oru.agregarDestino(suc,230);
+        oru.agregarDestino(pot,231);
+        oru.agregarDestino(tar,469);
+
+        pot.agregarDestino(suc,80);
+        pot.agregarDestino(tar,241);
+
+        suc.agregarDestino(tar,283);
+
+
+        Grafo ans = Dijkstra.calculateShortestPathFromSource(grafo,tar);
+        List<Nodo> caminoMasCorto =  (pando.getShortestPath());
+        System.out.println(pando.getDistance());
+        for(Nodo nodo:caminoMasCorto){
+            System.out.println(nodo);
+        }
 //
 //
 //        grafo.removeEdge(grafo.getEdge(listaAeropuertos.get(Aeropuerto.ORU),listaAeropuertos.get(Aeropuerto.TAR)));
@@ -101,45 +90,17 @@ public final class AeropuertoAplicacion
 
     private static List<Aeropuerto>  llenarAeropuertos(){
         List<Aeropuerto> res = new ArrayList<>();
-//        res.add(new Aeropuerto("la paz",LocalTime.of(02,0,0),LocalTime.of(23,59,0)));
-//        res.add(new Aeropuerto("cochabamba",LocalTime.of(02,0,0),LocalTime.of(23,59,0)));
-//        res.add(new Aeropuerto("santa cruz",LocalTime.of(02,0,0),LocalTime.of(23,59,0)));
+        res.add(new Aeropuerto("la paz",LocalTime.of(02,0,0),LocalTime.of(23,59,0)));
+        res.add(new Aeropuerto("cochabamba",LocalTime.of(02,0,0),LocalTime.of(23,59,0)));
+        res.add(new Aeropuerto("santa cruz",LocalTime.of(02,0,0),LocalTime.of(23,59,0)));
         res.add(new Aeropuerto("tarija",LocalTime.of(06,10,0),LocalTime.of(18,0,0)));
-//        res.add(new Aeropuerto("sucre",LocalTime.of(06,0,0),LocalTime.of(18,0,0)));
-//        res.add(new Aeropuerto("oruro",LocalTime.of(06,0,0),LocalTime.of(18,0,0)));
-//        res.add(new Aeropuerto("potosi",LocalTime.of(06,0,0),LocalTime.of(18,0,0)));
-//        res.add(new Aeropuerto("beni",LocalTime.of(06,0,0),LocalTime.of(18,0,0)));
-//        res.add(new Aeropuerto("pando",LocalTime.of(06,0,0),LocalTime.of(18,0,0)));
+        res.add(new Aeropuerto("sucre",LocalTime.of(06,0,0),LocalTime.of(18,0,0)));
+        res.add(new Aeropuerto("oruro",LocalTime.of(06,0,0),LocalTime.of(18,0,0)));
+        res.add(new Aeropuerto("potosi",LocalTime.of(06,0,0),LocalTime.of(18,0,0)));
+        res.add(new Aeropuerto("beni",LocalTime.of(06,0,0),LocalTime.of(18,0,0)));
+        res.add(new Aeropuerto("pando",LocalTime.of(06,0,0),LocalTime.of(18,0,0)));
 
         return res;
-    }
-    /**
-     * Creates a toy directed graph based on URL objects that represents link structure.
-     *
-     * @return a graph based on URL objects.
-     */
-    private static Graph<URL, DefaultEdge> createHrefGraph()
-    {
-        Graph<URL, DefaultEdge> g = new DefaultDirectedGraph<>(DefaultEdge.class);
-
-
-        try {
-//            Aeropuerto amazon = new Aeropuerto("La paz");
-            URL yahoo = new URL("http://www.yahoo.com");
-            URL ebay = new URL("http://www.ebay.com");
-            // add the vertices
-//            g.addVertex(amazon);
-//            g.addVertex(yahoo);
-//            g.addVertex(ebay);
-//
-//            // add edges to create linking structure
-//            g.addEdge(yahoo, amazon);
-//            g.addEdge(yahoo, ebay);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        return g;
     }
 }
 

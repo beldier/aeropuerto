@@ -1,6 +1,7 @@
 package models.aeropuertos;
 
 
+import controller.graph.Nodo;
 import models.tiempo.Reloj;
 import models.tiempo.RelojInterface;
 
@@ -13,23 +14,24 @@ import java.util.Date;
 import java.util.List;
 
 
-public class Aeropuerto implements RelojInterface {
+public class Aeropuerto extends Nodo implements RelojInterface  {
     private String ubicacion;
     private LocalTime horaAtencionInicio;
     private LocalTime horaAtencionFin;
     private List<Pista> pistas;
 
-    public static int LPZ=  0;
-    public static int CBBA= 1;
-    public static int SCZ=  2;
-    public static int TAR=  3;
-    public static int SUC=  4;
-    public static int ORU=  5;
-    public static int POT=  6;
-    public static int BEN=  7;
-    public static int PAN=  8;
+    public static final int LPZ=  0;
+    public static final int CBBA= 1;
+    public static final int SCZ=  2;
+    public static final int TAR=  3;
+    public static final int SUC=  4;
+    public static final int ORU=  5;
+    public static final int POT=  6;
+    public static final int BEN=  7;
+    public static final int PAN=  8;
 
     public Aeropuerto(String ubicacion, LocalTime horaAtencionInicio, LocalTime horaAtencionFin) {
+
         this.ubicacion = ubicacion;
         this.horaAtencionInicio = horaAtencionInicio;
         this.horaAtencionFin = horaAtencionFin;
