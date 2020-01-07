@@ -36,6 +36,7 @@ public class Aeropuerto extends Nodo implements RelojInterface  {
         this.horaAtencionInicio = horaAtencionInicio;
         this.horaAtencionFin = horaAtencionFin;
         this.pistas = new ArrayList<>();
+        super.disponible = true;
     }
 
     public String getUbicacion() {
@@ -70,6 +71,7 @@ public class Aeropuerto extends Nodo implements RelojInterface  {
         this.pistas = pistas;
     }
 
+
     @Override
     public String toString(){
         return this.ubicacion;
@@ -77,10 +79,11 @@ public class Aeropuerto extends Nodo implements RelojInterface  {
 
     @Override
     public void escucharHora() {
-
         LocalTime alarma = LocalDateTime.ofInstant(Reloj.getFecha().toInstant(), ZoneId.systemDefault()).truncatedTo(ChronoUnit.SECONDS).toLocalTime();
-        if(horaAtencionInicio.compareTo(alarma) == 0)
-            System.out.println("Alarma :"+ubicacion);
+        if(horaAtencionInicio.compareTo(alarma) == 0) {
+            super.setDisponible(true);
+            System.out.printf("Aeropuerto %s empieza a funcionar:\n",ubicacion);
+        }
 
     }
 }

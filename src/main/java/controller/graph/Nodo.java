@@ -15,7 +15,10 @@ public  class Nodo {
 
     private Map<Nodo, Integer> adjacentNodes = new HashMap<>();
 
+    protected boolean disponible;
+
     public Nodo() {
+
     }
 
     public Nodo(String name) {
@@ -59,5 +62,11 @@ public  class Nodo {
         this.shortestPath = shortestPath;
     }
 
+    public boolean isDisponible() {
+        return disponible;
+    }
 
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
 }

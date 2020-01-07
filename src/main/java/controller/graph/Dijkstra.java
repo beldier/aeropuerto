@@ -23,7 +23,7 @@ public class Dijkstra {
                 Nodo adjacentNode = adjacencyPair.getKey();
                 Integer edgeWeigh = adjacencyPair.getValue();
 
-                if (!settledNodes.contains(adjacentNode)) {
+                if (!settledNodes.contains(adjacentNode) && adjacentNode.disponible == true) {
                     CalculateMinimumDistance(adjacentNode, edgeWeigh, currentNode);
                     unsettledNodes.add(adjacentNode);
                 }

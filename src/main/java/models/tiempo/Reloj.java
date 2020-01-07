@@ -15,7 +15,7 @@ public final class Reloj {
     private static List<Aeropuerto> escuchadores;
     static {
         Calendar calendario = Calendar.getInstance();
-        calendario.set(2019,0,1,6,0,0);
+        calendario.set(2019,0,1,5,59,0);
         fecha = calendario.getTime();
         timer = new Timer();
         RelojTask relojTask = new RelojTask();
